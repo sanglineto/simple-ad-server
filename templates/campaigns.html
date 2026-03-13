@@ -1,0 +1,43 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Campanhas{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">Campanhas</h1>
+    <a href="/campaigns/new" class="btn btn-primary">Nova Campanha</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Views</th>
+                <th>Cliques</th>
+                <th>Orçamento</th>
+                <th>Gasto</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campaign in campaigns %}
+            <tr>
+                <td>{{ campaign.id }}</td>
+                <td>{{ campaign.name }}</td>
+                <td>{{ campaign.views_current }}/{{ campaign.max_views }}</td>
+                <td>{{ campaign.clicks_current }}</td>
+                <td>${{ "%.2f"|format(campaign.budget_total) }}</td>
+                <td>${{ "%.2f"|format(campaign.spent) }}</td>
+                <td>
+                    <span class="badge bg-{{ 'success' if campaign.status == 'active' else 'secondary' }}">
+                        {{ campaign.status }}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

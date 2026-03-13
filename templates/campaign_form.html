@@ -1,0 +1,66 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Nova Campanha{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">Nova Campanha</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form action="/campaigns/new" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome da Campanha</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="video_url" class="form-label">URL do Vídeo</label>
+                        <input type="url" class="form-control" id="video_url" name="video_url" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="destination_url" class="form-label">URL de Destino</label>
+                        <input type="url" class="form-control" id="destination_url" name="destination_url" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="advertiser_id" class="form-label">ID do Anunciante</label>
+                        <input type="number" class="form-control" id="advertiser_id" name="advertiser_id" value="1" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="budget_daily" class="form-label">Orçamento Diário</label>
+                            <input type="number" class="form-control" id="budget_daily" name="budget_daily" value="10" step="0.01">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="budget_total" class="form-label">Orçamento Total</label>
+                            <input type="number" class="form-control" id="budget_total" name="budget_total" value="100" step="0.01">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="max_views" class="form-label">Máximo de Views</label>
+                            <input type="number" class="form-control" id="max_views" name="max_views" value="1000">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="target_country" class="form-label">País Alvo</label>
+                        <select class="form-control" id="target_country" name="target_country">
+                            <option value="global">Global</option>
+                            <option value="BR">Brasil</option>
+                            <option value="US">Estados Unidos</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Criar Campanha</button>
+                    <a href="/campaigns" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

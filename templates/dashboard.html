@@ -1,0 +1,91 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard</h1>
+</div>
+
+<div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card card-stats bg-primary text-white">
+            <div class="card-body">
+                <h5 class="text-uppercase">Total Views</h5>
+                <h2>{{ total_views }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card card-stats bg-success text-white">
+            <div class="card-body">
+                <h5 class="text-uppercase">Total Cliques</h5>
+                <h2>{{ total_clicks }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card card-stats bg-info text-white">
+            <div class="card-body">
+                <h5 class="text-uppercase">CTR</h5>
+                <h2>{{ "%.2f"|format((total_clicks/total_views*100) if total_views > 0 else 0) }}%</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card card-stats bg-warning text-white">
+            <div class="card-body">
+                <h5 class="text-uppercase">Gasto Total</h5>
+                <h2>${{ "%.2f"|format(total_spent) }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>Desempenho Diário</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="dailyChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Campanhas Ativas</h5>
+            </div>
+            <div class="card-body">
+                <h3>{{ active_campaigns }}</h3>
+                <p>campanhas em execução</p>
+                <a href="/campaigns/new" class="btn btn-primary">Nova Campanha</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const dailyStats = {{ daily_stats|safe }};
+    const ctx = document.getElementById('dailyChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: Object.keys(dailyStats.impressions),
+            datasets: [{
+                label: 'Visualizações',
+                data: Object.values(dailyStats.impressions),
+                borderColor: 'rgb(75, 192, 192)'
+            }, {
+                label: 'Cliques',
+                data: Object.values(dailyStats.clicks),
+                borderColor: 'rgb(255, 99, 132)'
+            }]
+        }
+    });
+</script>
+{% endblock %}
